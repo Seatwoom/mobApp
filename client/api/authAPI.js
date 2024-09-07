@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../../config";
 
 export const loginUser = async (username, password) => {
   const response = await fetch(`${API_BASE_URL}/login`, {
@@ -13,9 +13,8 @@ export const loginUser = async (username, password) => {
   }
 
   const data = await response.json();
-  return data; 
+  return data;
 };
-
 
 export const registerUser = async (username, password) => {
   const response = await fetch(`${API_BASE_URL}/register`, {
@@ -29,5 +28,5 @@ export const registerUser = async (username, password) => {
     throw new Error(errorData.error || "Registration failed");
   }
 
-  return await response.json(); 
+  return await response.json();
 };

@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import { CheckIcon, ActionIcon } from "../styles";
-import { updateTaskTextOnServer } from "../api/tasksAPI";
-
 const TaskItem = ({
   task,
   isEditing,
@@ -13,6 +11,14 @@ const TaskItem = ({
   setEditingTaskId,
   onBlur,
 }) => {
+  const [textInputValue, setTextInputValue] = useState(task.task);
+
+  useEffect(() => {
+    if (isEditing && editingTaskId === task.id) {
+      setTextInputValue(task.task);
+    }
+  }, [isEditing, editingTaskId, task.id, task.task]);
+
   return (
     <View
       style={{
@@ -30,9 +36,9 @@ const TaskItem = ({
             borderColor: "#ccc",
             padding: 5,
           }}
-          value={task.text}
-          onChangeText={(text) => onTaskChange(task.id, text)}
-          onBlur={() => onBlur(task.id, task.text)}
+          value={textInputValue}
+          onChangeText={(text) => setTextInputValue(text)}
+          onBlur={() => onBlur(task.id, textInputValue)}
         />
       ) : (
         <TouchableOpacity

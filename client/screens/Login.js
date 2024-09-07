@@ -21,7 +21,7 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       console.error("Login error:", error);
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", "Invalid usename or password");
     }
   };
 

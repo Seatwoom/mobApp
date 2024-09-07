@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, TouchableOpacity, Text } from "react-native";
+import { FlatList, TouchableOpacity, Text } from "react-native";
 import TaskItem from "../components/TaskItem";
 import {
   TaskContainer,
@@ -111,11 +111,12 @@ const Task = ({ navigation, route }) => {
 
   return (
     <TaskContainer>
-      <ScrollView>
-        {tasks.map((task) => (
+      <FlatList
+        data={tasks}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
           <TaskItem
-            key={task.id}
-            task={task}
+            task={item}
             onToggle={toggleTask}
             onDelete={deleteTask}
             isEditing={editingTaskId !== null}
@@ -126,8 +127,8 @@ const Task = ({ navigation, route }) => {
             updateTaskLocally={updateTaskLocally}
             onBlur={handleBlur}
           />
-        ))}
-      </ScrollView>
+        )}
+      />
       <TaskInputContainer>
         <ViewCatsButton
           onPress={() => navigation.navigate("CatCards", { userId })}
@@ -151,4 +152,5 @@ const Task = ({ navigation, route }) => {
     </TaskContainer>
   );
 };
+
 export default Task;

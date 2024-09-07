@@ -2,11 +2,11 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, StyleSheet } from "react-native";
-import Login from "./screens/Login";
-import Register from "./screens/Register";
-import Task from "./screens/Task";
-import CatCards from "./screens/CatCards";
-import CatDetails from "./screens/CatDetails";
+import Login from "./client/screens/Login";
+import Register from "./client/screens/Register";
+import Task from "./client/screens/Task";
+import CatCards from "./client/screens/CatCards";
+import CatDetails from "./client/screens/CatDetails";
 
 const Stack = createStackNavigator();
 

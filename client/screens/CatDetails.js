@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import { fetchCatDetails } from "../api/catAPI";
 import {
   CatContainer,
   CatImage,
@@ -12,18 +13,16 @@ import {
   NoInfoText,
   LinkText,
 } from "../styles.js";
+
 const CatDetailed = () => {
   const route = useRoute();
   const { id } = route.params;
   const [cat, setCat] = useState(null);
 
   useEffect(() => {
-    const fetchCatDetails = async () => {
+    const loadCatDetails = async () => {
       try {
-        const response = await fetch(
-          `https://api.thecatapi.com/v1/images/${id}`
-        );
-        const data = await response.json();
+        const data = await fetchCatDetails(id);
         console.log("Cat data:", data);
         setCat(data);
       } catch (error) {
@@ -31,9 +30,11 @@ const CatDetailed = () => {
       }
     };
 
-    fetchCatDetails();
+    loadCatDetails();
   }, [id]);
+
   if (!cat) return <NoInfoText>Loading...</NoInfoText>;
+
   const breed = cat.breeds && cat.breeds.length > 0 ? cat.breeds[0] : null;
 
   return (

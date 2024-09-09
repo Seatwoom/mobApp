@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Container, InputAuth, Button, ButtonText, Link } from "../styles";
+import {
+  Container,
+  InputAuth,
+  Button,
+  ButtonText,
+  Link,
+  lightStyles,
+  darkStyles,
+} from "../styles";
 import { loginUser } from "../api/authAPI";
+
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

@@ -5,7 +5,7 @@ import {
   fetchMoreCats,
   saveCatsToServer,
 } from "../api/catAPI";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../config";
 import {
   RandomButton,
   RandomButtonText,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CAT_URL, API_BASE_URL } from "../../config";
+import { CAT_URL, API_BASE_URL } from "../config.js";
 
 export const fetchRandomCats = async () => {
   try {

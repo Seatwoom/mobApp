@@ -11,17 +11,36 @@ import {
   RandomButtonText,
   MoreCatsButton,
   MoreCatsButtonText,
+  lightStyles,
+  darkStyles,
 } from "../styles";
+import { useTheme } from "../contexts/ThemeContext";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CatCards = ({ navigation, route }) => {
   const { userId } = route.params;
   const [cats, setCats] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-
+  const { isDarkMode, toggleTheme } = useTheme();
   useEffect(() => {
     fetchCats();
   }, [userId]);
+
+  useEffect(() => {
+    fetchCats();
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 15 }}>
+          <MaterialCommunityIcons
+            name={isDarkMode ? "weather-night" : "white-balance-sunny"}
+            size={24}
+            color={isDarkMode ? "#FFFFFF" : "#000000"}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [isDarkMode, navigation]);
 
   const fetchCats = async () => {
     try {
@@ -78,7 +97,7 @@ const CatCards = ({ navigation, route }) => {
   );
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
       <FlatList
         data={cats}
         renderItem={renderItem}
@@ -89,10 +108,17 @@ const CatCards = ({ navigation, route }) => {
           justifyContent: "space-between",
         }}
       />
-      <RandomButton onPress={handleFetchRandomCats}>
+      <RandomButton
+        style={isDarkMode ? darkStyles.button : lightStyles.button}
+        onPress={handleFetchRandomCats}
+      >
         <RandomButtonText>Random</RandomButtonText>
       </RandomButton>
-      <RandomButton onPress={handleLoadMoreCats} disabled={loading}>
+      <RandomButton
+        style={isDarkMode ? darkStyles.button : lightStyles.button}
+        onPress={handleLoadMoreCats}
+        disabled={loading}
+      >
         <RandomButtonText>
           {loading ? "Loading..." : "More Cats"}
         </RandomButtonText>

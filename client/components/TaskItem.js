@@ -10,6 +10,7 @@ const TaskItem = ({
   editingTaskId,
   setEditingTaskId,
   onBlur,
+  isDarkMode,
 }) => {
   const [textInputValue, setTextInputValue] = useState(task.task);
 
@@ -49,6 +50,7 @@ const TaskItem = ({
           <Text
             style={{
               textDecorationLine: task.completed ? "line-through" : "none",
+              color: isDarkMode ? "#fff" : "#000",
             }}
           >
             {task.task}
@@ -56,7 +58,13 @@ const TaskItem = ({
         </TouchableOpacity>
       )}
       <TouchableOpacity onPress={() => onToggle(task.id)} disabled={isEditing}>
-        <CheckIcon>{task.completed ? "✓" : "○"}</CheckIcon>
+        <CheckIcon
+          style={{
+            color: isDarkMode ? "#fff" : "#000",
+          }}
+        >
+          {task.completed ? "✓" : "○"}
+        </CheckIcon>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => onDelete(task.id)} disabled={isEditing}>
         <ActionIcon>🗑️</ActionIcon>

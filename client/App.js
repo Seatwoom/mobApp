@@ -7,14 +7,24 @@ import Register from "./screens/Register";
 import Task from "./screens/Task";
 import CatCards from "./screens/CatCards";
 import CatDetails from "./screens/CatDetails";
+import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 
 const Stack = createStackNavigator();
 
-const App = () => {
+const AppContent = () => {
+  const { isDarkMode } = useTheme();
+
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: isDarkMode ? "#0D1B2A" : "#FFFFFF",
+            },
+            headerTintColor: isDarkMode ? "#FFFFFF" : "#000000",
+          }}
+        >
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Tasks" component={Task} />
@@ -23,6 +33,14 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </View>
+  );
+};
+
+const App = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 };
 

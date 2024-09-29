@@ -1,6 +1,7 @@
 const pool = require("../config/db");
+
 exports.getCatsByUserId = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.user.userId;
   try {
     const result = await pool.query("SELECT * FROM cats WHERE user_id = $1", [
       userId,
@@ -16,7 +17,9 @@ exports.getCatsByUserId = async (req, res) => {
   }
 };
 exports.saveCats = async (req, res) => {
-  const { userId, catData } = req.body;
+  const userId = req.user.userId;
+
+  const { catData } = req.body;
   try {
     const existingCat = await pool.query(
       "SELECT * FROM cats WHERE user_id = $1",

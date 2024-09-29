@@ -1,5 +1,6 @@
 const pool = require("../config/db");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const saltRounds = 10;
 
@@ -49,8 +50,14 @@ exports.loginUser = async (req, res) => {
     if (!isValidPassword) {
       return res.status(400).json({ error: "Invalid usename or password" });
     }
-
-    res.json({ userId: result.rows[0].id });
+    const token = jwt.sign(
+      { userId: result.rows[0].id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.json({ token, userId: result.rows[0].id });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Internal server error" });

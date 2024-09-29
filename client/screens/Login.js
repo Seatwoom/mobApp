@@ -6,8 +6,7 @@ import {
   Button,
   ButtonText,
   Link,
-  lightStyles,
-  darkStyles,
+  styles,
 } from "../styles";
 import { loginUser } from "../api/authAPI";
 import { useTheme } from "../contexts/ThemeContext";
@@ -16,7 +15,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
+
   const handleLogin = async () => {
     if (!username || !password) {
       Alert.alert("Error", "Please fill out all fields.");
@@ -31,51 +31,46 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       console.error("Login error:", error);
-      Alert.alert("Error", "Invalid usename or password");
+      Alert.alert("Error", "Invalid username or password");
     }
   };
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 15 }}>
           <MaterialCommunityIcons
-            name={isDarkMode ? "weather-night" : "white-balance-sunny"}
+            name={theme === "dark" ? "weather-night" : "white-balance-sunny"}
             size={24}
-            color={isDarkMode ? "#FFFFFF" : "#000000"}
+            color={styles[theme].iconColor}
           />
         </TouchableOpacity>
       ),
     });
-  }, [isDarkMode, navigation]);
+  }, [theme, navigation]);
+
   return (
-    <Container
-      style={isDarkMode ? darkStyles.container : lightStyles.container}
-    >
+    <Container style={styles[theme].container}>
       <InputAuth
-        style={isDarkMode ? darkStyles.input : lightStyles.input}
+        style={styles[theme].input}
         value={username}
         onChangeText={setUsername}
         placeholder="Username"
-        placeholderTextColor={isDarkMode ? "#fff" : "#000"}
+        placeholderTextColor={styles[theme].placeholderColor}
       />
       <InputAuth
-        style={isDarkMode ? darkStyles.input : lightStyles.input}
+        style={styles[theme].input}
         value={password}
         onChangeText={setPassword}
         placeholder="Password"
         secureTextEntry
-        placeholderTextColor={isDarkMode ? "#fff" : "#000"}
+        placeholderTextColor={styles[theme].placeholderColor}
       />
-      <Button
-        style={isDarkMode ? darkStyles.button : lightStyles.button}
-        onPress={handleLogin}
-      >
+      <Button style={styles[theme].button} onPress={handleLogin}>
         <ButtonText>Login</ButtonText>
       </Button>
       <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-        <Link style={isDarkMode ? darkStyles.link : lightStyles.link}>
-          Don't have an account? Register
-        </Link>
+        <Link style={styles[theme].link}>Don't have an account? Register</Link>
       </TouchableOpacity>
     </Container>
   );

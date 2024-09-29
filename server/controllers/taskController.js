@@ -1,8 +1,7 @@
 const pool = require("../config/db");
 
 exports.getTasks = async (req, res) => {
-  const { userId } = req.params;
-
+  const userId = req.user.userId;
   try {
     const result = await pool.query("SELECT * FROM tasks WHERE user_id = $1", [
       userId,
@@ -15,7 +14,8 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.addTask = async (req, res) => {
-  const { userId, task } = req.body;
+  const userId = req.user.userId;
+  const { task } = req.body;
 
   try {
     const result = await pool.query(

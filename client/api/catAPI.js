@@ -1,6 +1,6 @@
 import axios from "axios";
 import { CAT_URL, API_BASE_URL } from "../config.js";
-
+import { getToken } from "./authAPI.js";
 export const fetchRandomCats = async () => {
   try {
     const response = await axios.get(
@@ -26,10 +26,14 @@ export const fetchMoreCats = async (page) => {
 };
 
 export const saveCatsToServer = async (userId, catData) => {
+  const token = await getToken();
   try {
     await fetch(`${API_BASE_URL}/cats`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${token}`,
+      },
       body: JSON.stringify({ userId, catData }),
     });
   } catch (error) {

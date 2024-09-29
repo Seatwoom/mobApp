@@ -1,4 +1,23 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from "../config.js";
+
+export const storeToken = async (token) => {
+  try {
+    await AsyncStorage.setItem("token", token);
+  } catch (error) {
+    console.error("Error storing token:", error);
+  }
+};
+
+export const getToken = async () => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    return token;
+  } catch (error) {
+    console.error("Error getting token:", error);
+    return null;
+  }
+};
 
 export const loginUser = async (username, password) => {
   const response = await fetch(`${API_BASE_URL}/login`, {
@@ -13,6 +32,9 @@ export const loginUser = async (username, password) => {
   }
 
   const data = await response.json();
+  if (data.token) {
+    await storeToken(data.token);
+  }
   return data;
 };
 

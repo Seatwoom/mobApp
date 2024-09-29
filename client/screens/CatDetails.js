@@ -11,8 +11,7 @@ import {
   CatDetailLabel,
   NoInfoText,
   LinkText,
-  lightStyles,
-  darkStyles,
+  styles,
 } from "../styles.js";
 import { TouchableOpacity } from "react-native";
 import { useTheme } from "../contexts/ThemeContext";
@@ -21,7 +20,7 @@ const CatDetailed = ({ navigation }) => {
   const route = useRoute();
   const { id } = route.params;
   const [cat, setCat] = useState(null);
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   useEffect(() => {
     const loadCatDetails = async () => {
       try {
@@ -40,62 +39,48 @@ const CatDetailed = ({ navigation }) => {
       headerRight: () => (
         <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 15 }}>
           <MaterialCommunityIcons
-            name={isDarkMode ? "weather-night" : "white-balance-sunny"}
+            name={theme === "dark" ? "weather-night" : "white-balance-sunny"}
             size={24}
-            color={isDarkMode ? "#FFFFFF" : "#000000"}
+            color={styles[theme].iconColor}
           />
         </TouchableOpacity>
       ),
     });
-  }, [isDarkMode, navigation]);
+  }, [theme, navigation]);
 
   if (!cat) return <NoInfoText>Loading...</NoInfoText>;
 
   const breed = cat.breeds && cat.breeds.length > 0 ? cat.breeds[0] : null;
 
   return (
-    <CatContainer
-      style={isDarkMode ? darkStyles.container : lightStyles.container}
-    >
+    <CatContainer style={styles[theme].container}>
       <CatImage source={{ uri: cat.url }} />
       <CatDetail>
-        <CatBreedName style={isDarkMode ? darkStyles.text : lightStyles.text}>
+        <CatBreedName style={styles[theme].text}>
           {breed?.name || "Unknown Breed"}
         </CatBreedName>
         {breed ? (
           <>
-            <CatDescription
-              style={isDarkMode ? darkStyles.text : lightStyles.text}
-            >
+            <CatDescription style={styles[theme].text}>
               {breed.description || "No description available."}
             </CatDescription>
-            <CatDetailText
-              style={isDarkMode ? darkStyles.text : lightStyles.text}
-            >
-              <CatDetailLabel
-                style={isDarkMode ? darkStyles.text : lightStyles.text}
-              >
+            <CatDetailText style={styles[theme].text}>
+              <CatDetailLabel style={styles[theme].text}>
                 Temperament:
               </CatDetailLabel>{" "}
               {breed.temperament || "Not available"}
             </CatDetailText>
             <CatDetailText>
-              <CatDetailLabel
-                style={isDarkMode ? darkStyles.text : lightStyles.text}
-              >
+              <CatDetailLabel style={styles[theme].text}>
                 Origin:
               </CatDetailLabel>{" "}
               {breed.origin || "Not available"}
             </CatDetailText>
-            <CatDetailText
-              style={isDarkMode ? darkStyles.text : lightStyles.text}
-            >
+            <CatDetailText style={styles[theme].text}>
               <CatDetailLabel>Life Span:</CatDetailLabel>{" "}
               {breed.life_span || "Not available"} years
             </CatDetailText>
-            <CatDetailText
-              style={isDarkMode ? darkStyles.text : lightStyles.text}
-            >
+            <CatDetailText style={styles[theme].text}>
               <CatDetailLabel>Wikipedia:</CatDetailLabel>{" "}
               <LinkText>{breed.wikipedia_url || "Not available"}</LinkText>
             </CatDetailText>

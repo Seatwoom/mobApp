@@ -6,8 +6,7 @@ import {
   Button,
   ButtonText,
   Link,
-  lightStyles,
-  darkStyles,
+  styles,
 } from "../styles";
 import { registerUser } from "../api/authAPI";
 import { useTheme } from "../contexts/ThemeContext";
@@ -16,7 +15,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const Register = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const handleRegister = async () => {
     if (!username || !password) {
       Alert.alert("Error", "Please fill out all fields.");
@@ -39,43 +38,36 @@ const Register = ({ navigation }) => {
       headerRight: () => (
         <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 15 }}>
           <MaterialCommunityIcons
-            name={isDarkMode ? "weather-night" : "white-balance-sunny"}
+            name={theme === "dark" ? "weather-night" : "white-balance-sunny"}
             size={24}
-            color={isDarkMode ? "#FFFFFF" : "#000000"}
+            color={styles[theme].iconColor}
           />
         </TouchableOpacity>
       ),
     });
-  }, [isDarkMode, navigation]);
+  }, [theme, navigation]);
   return (
-    <Container
-      style={isDarkMode ? darkStyles.container : lightStyles.container}
-    >
+    <Container style={styles[theme].container}>
       <InputAuth
-        style={isDarkMode ? darkStyles.input : lightStyles.input}
+        style={styles[theme].input}
         value={username}
         onChangeText={setUsername}
         placeholder="Username"
-        placeholderTextColor={isDarkMode ? "#fff" : "#000"}
+        placeholderTextColor={styles[theme].placeholderColor}
       />
       <InputAuth
-        style={isDarkMode ? darkStyles.input : lightStyles.input}
+        style={styles[theme].input}
         value={password}
         onChangeText={setPassword}
         placeholder="Password"
         secureTextEntry
-        placeholderTextColor={isDarkMode ? "#fff" : "#000"}
+        placeholderTextColor={styles[theme].placeholderColor}
       />
-      <Button
-        style={isDarkMode ? darkStyles.button : lightStyles.button}
-        onPress={handleRegister}
-      >
+      <Button style={styles[theme].button} onPress={handleRegister}>
         <ButtonText>Register</ButtonText>
       </Button>
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Link style={isDarkMode ? darkStyles.link : lightStyles.link}>
-          Already have an account? Login
-        </Link>
+        <Link style={styles[theme].link}>Already have an account? Login</Link>
       </TouchableOpacity>
     </Container>
   );

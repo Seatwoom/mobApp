@@ -156,51 +156,62 @@ export const LinkText = styled.Text`
   color: blue;
   text-decoration-line: underline;
 `;
-export const lightStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    padding: 16,
-  },
-  text: {
-    color: "#000",
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    alignItems: "center",
-  },
-  input: {
-    borderColor: "#ccc",
-    borderWidth: 1,
-  },
-  link: {
-    color: "#007BFF",
-  },
-});
-
-export const darkStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0D1B2A",
-    padding: 16,
-  },
-  text: {
-    color: "#fff",
-  },
-  button: {
-    borderColor: "#A0C4FF;",
-    backgroundColor: "#1B2A48",
-
-    alignItems: "center",
-  },
-
-  input: {
-    borderColor: "#334F71",
-    backgroundColor: "#112D4E",
-    borderWidth: 1,
-    color: "#fff",
-  },
-  link: {
-    color: "#1E90FF",
-  },
-});
+export const styles = {
+  light: StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#fff",
+      padding: 16,
+    },
+    header: {
+      backgroundColor: "#FFFFFF",
+      tintColor: "#000000",
+    },
+    text: {
+      color: "#000",
+    },
+    button: {
+      backgroundColor: "#007BFF",
+      alignItems: "center",
+    },
+    input: {
+      borderColor: "#000",
+      borderWidth: 1,
+    },
+    link: {
+      color: "#007BFF",
+    },
+    placeholderColor: "#000",
+    iconColor: "#000",
+  }),
+  dark: StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#0D1B2A",
+      padding: 16,
+    },
+    header: {
+      backgroundColor: "#0D1B2A",
+      tintColor: "#FFFFFF",
+    },
+    text: {
+      color: "#fff",
+    },
+    button: {
+      borderColor: "#A0C4FF;",
+      backgroundColor: "#1B2A48",
+      alignItems: "center",
+    },
+    input: {
+      borderColor: "#334F71",
+      backgroundColor: "#112D4E",
+      borderWidth: 1,
+      color: "#fff",
+    },
+    link: {
+      color: "#1E90FF",
+    },
+    placeholderColor: "#ccc",
+    iconColor: "#fff",
+  }),
+};

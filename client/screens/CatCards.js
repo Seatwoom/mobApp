@@ -6,23 +6,17 @@ import {
   saveCatsToServer,
 } from "../api/catAPI";
 import { API_BASE_URL } from "../config";
-import {
-  RandomButton,
-  RandomButtonText,
-  MoreCatsButton,
-  MoreCatsButtonText,
-  lightStyles,
-  darkStyles,
-} from "../styles";
+import { RandomButton, RandomButtonText, styles } from "../styles";
 import { useTheme } from "../contexts/ThemeContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { getToken } from "../api/authAPI";
 
 const CatCards = ({ navigation, route }) => {
   const { userId } = route.params;
   const [cats, setCats] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   useEffect(() => {
     fetchCats();
   }, [userId]);
@@ -33,18 +27,23 @@ const CatCards = ({ navigation, route }) => {
       headerRight: () => (
         <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 15 }}>
           <MaterialCommunityIcons
-            name={isDarkMode ? "weather-night" : "white-balance-sunny"}
+            name={theme === "dark" ? "weather-night" : "white-balance-sunny"}
             size={24}
-            color={isDarkMode ? "#FFFFFF" : "#000000"}
+            color={styles[theme].iconColor}
           />
         </TouchableOpacity>
       ),
     });
-  }, [isDarkMode, navigation]);
+  }, [theme, navigation]);
 
   const fetchCats = async () => {
+    const token = await getToken();
     try {
-      const response = await fetch(`${API_BASE_URL}/cats/${userId}`);
+      const response = await fetch(`${API_BASE_URL}/cats/`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
       const data = await response.json();
       console.log("Fetched data:", data);
       setCats(Array.isArray(data) ? data : data.cat_data || []);
@@ -97,7 +96,7 @@ const CatCards = ({ navigation, route }) => {
   );
 
   return (
-    <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
+    <View style={styles[theme].container}>
       <FlatList
         data={cats}
         renderItem={renderItem}
@@ -109,13 +108,13 @@ const CatCards = ({ navigation, route }) => {
         }}
       />
       <RandomButton
-        style={isDarkMode ? darkStyles.button : lightStyles.button}
+        style={styles[theme].button}
         onPress={handleFetchRandomCats}
       >
         <RandomButtonText>Random</RandomButtonText>
       </RandomButton>
       <RandomButton
-        style={isDarkMode ? darkStyles.button : lightStyles.button}
+        style={styles[theme].button}
         onPress={handleLoadMoreCats}
         disabled={loading}
       >

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, Text, TouchableOpacity } from "react-native";
-import { CheckIcon, ActionIcon } from "../styles";
+import { CheckIcon, ActionIcon, styles } from "../styles";
 const TaskItem = ({
   task,
   isEditing,
@@ -10,7 +10,7 @@ const TaskItem = ({
   editingTaskId,
   setEditingTaskId,
   onBlur,
-  isDarkMode,
+  theme,
 }) => {
   const [textInputValue, setTextInputValue] = useState(task.task);
 
@@ -50,7 +50,7 @@ const TaskItem = ({
           <Text
             style={{
               textDecorationLine: task.completed ? "line-through" : "none",
-              color: isDarkMode ? "#fff" : "#000",
+              color: styles[theme].input.color,
             }}
           >
             {task.task}
@@ -60,7 +60,7 @@ const TaskItem = ({
       <TouchableOpacity onPress={() => onToggle(task.id)} disabled={isEditing}>
         <CheckIcon
           style={{
-            color: isDarkMode ? "#fff" : "#000",
+            color: styles[theme].input.color,
           }}
         >
           {task.completed ? "✓" : "○"}

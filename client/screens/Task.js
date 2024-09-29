@@ -9,8 +9,7 @@ import {
   ButtonText,
   ViewCatsButton,
   ViewCatsButtonText,
-  lightStyles,
-  darkStyles,
+  styles,
 } from "../styles";
 import {
   fetchTasks,
@@ -25,7 +24,7 @@ const Task = ({ navigation, route }) => {
   const [tasks, setTasks] = useState([]);
   const [taskText, setTaskText] = useState("");
   const [editingTaskId, setEditingTaskId] = useState(null);
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const { userId } = route.params;
 
   useEffect(() => {
@@ -117,18 +116,16 @@ const Task = ({ navigation, route }) => {
       headerRight: () => (
         <TouchableOpacity onPress={toggleTheme} style={{ marginRight: 15 }}>
           <MaterialCommunityIcons
-            name={isDarkMode ? "weather-night" : "white-balance-sunny"}
+            name={theme === "dark" ? "weather-night" : "white-balance-sunny"}
             size={24}
-            color={isDarkMode ? "#FFFFFF" : "#000000"}
+            color={styles[theme].iconColor}
           />
         </TouchableOpacity>
       ),
     });
-  }, [isDarkMode, navigation]);
+  }, [theme, navigation]);
   return (
-    <TaskContainer
-      style={isDarkMode ? darkStyles.container : lightStyles.container}
-    >
+    <TaskContainer style={styles[theme].container}>
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id.toString()}
@@ -144,27 +141,27 @@ const Task = ({ navigation, route }) => {
             setEditingTaskId={setEditingTaskId}
             updateTaskLocally={updateTaskLocally}
             onBlur={handleBlur}
-            isDarkMode={isDarkMode}
+            theme={theme}
           />
         )}
       />
       <TaskInputContainer>
         <ViewCatsButton
-          style={isDarkMode ? darkStyles.button : lightStyles.button}
+          style={styles[theme].button}
           onPress={() => navigation.navigate("CatCards", { userId })}
         >
           <ViewCatsButtonText>View Cats</ViewCatsButtonText>
         </ViewCatsButton>
         <InputTask
-          style={isDarkMode ? darkStyles.input : lightStyles.input}
+          style={styles[theme].input}
           value={taskText}
           onChangeText={setTaskText}
           placeholder="Add a task"
-          placeholderTextColor={isDarkMode ? "#fff" : "#000"}
+          placeholderTextColor={styles[theme].placeholderColor}
           editable={editingTaskId === null}
         />
         <TaskButton
-          style={isDarkMode ? darkStyles.button : lightStyles.button}
+          style={styles[theme].button}
           onPress={addTask}
           disabled={editingTaskId !== null || !taskText.trim()}
         >

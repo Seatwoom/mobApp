@@ -9,7 +9,7 @@ import CatCards from "./screens/CatCards";
 import CatDetails from "./screens/CatDetails";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import { styles } from "./styles";
-import { RootStoreProvider } from "./stores/RootStore";
+import { RootStoreProvider } from "./contexts/RootStoreContext";
 const Stack = createStackNavigator();
 
 const AppContent = () => {
@@ -39,9 +39,11 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
+    <RootStoreProvider>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </RootStoreProvider>
   );
 };
 

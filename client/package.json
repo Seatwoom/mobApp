@@ -24,6 +24,7 @@
     "expo-status-bar": "~1.12.1",
     "mobx": "^6.13.3",
     "mobx-react": "^9.1.1",
+    "mobx-react-lite": "^4.0.7",
     "mobx-state-tree": "^6.0.1",
     "npm": "^10.8.3",
     "pg": "^8.12.0",

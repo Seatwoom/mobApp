@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import { CheckIcon, ActionIcon, styles } from "../styles";
+import { observer } from "mobx-react-lite";
+
 const TaskItem = ({
   task,
   isEditing,
@@ -73,4 +75,4 @@ const TaskItem = ({
   );
 };
 
-export default TaskItem;
+export default observer(TaskItem);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextInput, Button, View, Text, TouchableOpacity } from "react-native";
 import { Input, Button as StyledButton } from "../styles";
+import { observer } from "mobx-react-lite";
 
 const TaskInput = ({ onAddTask }) => {
   const [text, setText] = useState("");
@@ -29,4 +30,4 @@ const TaskInput = ({ onAddTask }) => {
   );
 };
 
-export default TaskInput;
+export default observer(TaskInput);
